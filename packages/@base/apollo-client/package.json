@@ -1,0 +1,49 @@
+{
+  "name": "@base/apollo-client",
+  "version": "0.0.0",
+  "private": true,
+  "license": "MIT",
+  "exports": {
+    ".": "./dist/index.js",
+    "./browser": "./dist/browser/index.js",
+    "./server": "./dist/server/index.js"
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "browser": [
+        "./dist/browser/index.d.ts"
+      ],
+      "server": [
+        "./dist/server/index.d.ts"
+      ]
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "lint": "eslint ./"
+  },
+  "prettier": "@config/prettier",
+  "dependencies": {
+    "@apollo/client": "^3.8.7",
+    "@apollo/experimental-nextjs-app-support": "^0.5.1",
+    "set-cookie-parser": "^2.6.0",
+    "zen-observable-ts": "^1.1.0"
+  },
+  "devDependencies": {
+    "@config/eslint-config": "workspace:*",
+    "@config/prettier": "workspace:*",
+    "@config/tsconfig": "workspace:*",
+    "@config/tsup": "workspace:*",
+    "@types/node": "^18.18.8",
+    "@types/set-cookie-parser": "^2.4.2",
+    "graphql": "^16.8.0",
+    "graphql-ws": "^5.14.2",
+    "tsup": "^7.2.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,11 @@
+@tailwind components;
+
+@layer components {
+  .btn-primary {
+    width: 250px;
+  }
+
+  .btn-primary2 {
+    @apply bg-blue-500 text-white font-bold py-2 px-4 rounded;
+  }
+}

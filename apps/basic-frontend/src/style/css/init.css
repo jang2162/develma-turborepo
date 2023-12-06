@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind utilities;
+
+pre,
+code,
+kbd,
+samp {
+  font-family: inherit;
+}

@@ -1,0 +1,33 @@
+{
+  "name": "basic-backend",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "knex-migrator": "tsx src/scripts/knexMigrator.ts",
+    "lint": "eslint ./"
+  },
+  "prettier": "@config/prettier",
+  "dependencies": {
+    "@base/apollo-server": "workspace:*",
+    "@graphql-tools/load-files": "^7.0.0",
+    "@util/env": "workspace:*",
+    "@util/knex-migrator-cli": "workspace:*",
+    "@util/knex-transaction": "workspace:*",
+    "@util/logger": "workspace:*",
+    "@util/simple-express": "workspace:*",
+    "@util/tools": "workspace:*",
+    "basic-graphql": "workspace:*",
+    "knex": "^3.0.1",
+    "pg": "^8.11.3",
+    "tsyringe": "^4.8.0"
+  },
+  "devDependencies": {
+    "@config/eslint-config": "workspace:*",
+    "@config/prettier": "workspace:*",
+    "@config/tsconfig": "workspace:*",
+    "@types/node": "^18.18.8",
+    "@types/pg": "^8.10.7",
+    "tsx": "^3.14.0",
+    "typescript": "^5.2.2"
+  }
+}

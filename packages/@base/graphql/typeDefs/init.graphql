@@ -1,0 +1,15 @@
+type Query
+type Mutation
+type Subscription
+
+extend type Query {
+    _: Void
+}
+
+extend type Mutation {
+    _: Void
+}
+
+extend type Subscription {
+    _: Void
+}

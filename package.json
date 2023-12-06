@@ -1,0 +1,22 @@
+{
+  "name": "develma-turborepo",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "basic-backend#build": "turbo run basic-backend#build",
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "sort-package-json": "sort-package-json \"**/package.json\" \"!**/node_modules/**/package.json\"",
+    "start": "turbo run dev"
+  },
+  "dependencies": {
+    "sort-package-json": "^2.5.1",
+    "stylelint": "^15.10.3"
+  },
+  "devDependencies": {
+    "@turbo/gen": "^1.10.16",
+    "turbo": "^1.10.16"
+  },
+  "packageManager": "pnpm@8.6.10"
+}

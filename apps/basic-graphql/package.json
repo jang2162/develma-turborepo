@@ -1,0 +1,25 @@
+{
+  "name": "basic-graphql",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build": "graphql-codegen",
+    "init": "dir-sym-link --target ../node_modules/@base/graphql/typeDefs --path typeDefs/common"
+  },
+  "prettier": "@config/prettier",
+  "dependencies": {
+    "@base/graphql": "workspace:*",
+    "@graphql-codegen/cli": "^5.0.0",
+    "@graphql-codegen/introspection": "^4.0.0",
+    "@graphql-codegen/typescript": "^4.0.1",
+    "@graphql-codegen/typescript-resolvers": "^4.0.1",
+    "graphql": "^16.8.1"
+  },
+  "devDependencies": {
+    "@config/eslint-config": "workspace:*",
+    "@config/prettier": "workspace:*",
+    "@config/tsconfig": "workspace:*",
+    "@util/dir-sym-link": "workspace:*",
+    "typescript": "^5.2.2"
+  }
+}

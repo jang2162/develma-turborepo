@@ -1,0 +1,33 @@
+{
+  "name": "@config/tsup",
+  "version": "0.0.0",
+  "private": true,
+  "license": "MIT",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsup",
+    "lint": "eslint ./"
+  },
+  "prettier": "@config/prettier",
+  "dependencies": {
+    "tsup": "^7.2.0"
+  },
+  "devDependencies": {
+    "@config/eslint-config": "workspace:*",
+    "@config/prettier": "workspace:*",
+    "@config/tsconfig": "workspace:*",
+    "@types/node": "^18.18.8"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

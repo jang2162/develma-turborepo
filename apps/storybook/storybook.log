@@ -1,0 +1,4 @@
+npm ERR! code EUNSUPPORTEDPROTOCOL
+npm ERR! Unsupported URL Type "workspace:": workspace:*
+
+npm ERR! A complete log of this run can be found in: C:\Users\jang2\AppData\Local\npm-cache\_logs\2023-12-06T09_27_20_822Z-debug-0.log

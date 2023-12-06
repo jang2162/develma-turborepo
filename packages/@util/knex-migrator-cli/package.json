@@ -1,0 +1,40 @@
+{
+  "name": "@util/knex-migrator-cli",
+  "version": "0.0.0",
+  "private": true,
+  "license": "MIT",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsup",
+    "lint": "eslint ./"
+  },
+  "prettier": "@config/prettier",
+  "dependencies": {
+    "colorize-template": "^1.0.0",
+    "knex": "^3.0.1",
+    "picocolors": "^1.0.0",
+    "yargs-parser": "^21.1.1"
+  },
+  "devDependencies": {
+    "@config/eslint-config": "workspace:*",
+    "@config/prettier": "workspace:*",
+    "@config/tsconfig": "workspace:*",
+    "@config/tsup": "workspace:*",
+    "@types/node": "^18.18.8",
+    "@types/yargs-parser": "^21.0.1",
+    "pg": "^8.11.3",
+    "tsup": "^7.2.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

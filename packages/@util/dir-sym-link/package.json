@@ -1,0 +1,28 @@
+{
+  "name": "@util/dir-sym-link",
+  "version": "0.0.0",
+  "private": true,
+  "license": "MIT",
+  "bin": "./dist/index.js",
+  "scripts": {
+    "build": "tsup",
+    "lint": "eslint ./"
+  },
+  "prettier": "@config/prettier",
+  "dependencies": {
+    "rimraf": "^5.0.5",
+    "yargs-parser": "^21.1.1"
+  },
+  "devDependencies": {
+    "@config/eslint-config": "workspace:*",
+    "@config/prettier": "workspace:*",
+    "@config/tsconfig": "workspace:*",
+    "@config/tsup": "workspace:*",
+    "@types/yargs-parser": "^21.0.2",
+    "tsup": "^7.2.0",
+    "typescript": "^5.2.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

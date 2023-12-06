@@ -1,0 +1,16 @@
+{
+  "name": "@config/stylelint",
+  "version": "0.0.0",
+  "license": "MIT",
+  "type": "commonjs",
+  "main": "index.js",
+  "dependencies": {
+    "stylelint-config-standard": "34.0.0"
+  },
+  "peerDependencies": {
+    "stylelint": "^15.10.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json.schemastore.org/prettierrc",
+  "singleQuote": true,
+  "tabWidth": 4,
+  "printWidth": 120,
+  "plugins": ["prettier-plugin-tailwindcss", "prettier-plugin-css-order"],
+  "tailwindFunctions": ["clsx"],
+  "overrides": [
+    {
+      "files": "*.css",
+      "options": {
+        "tabWidth": 2
+      }
+    },
+    {
+      "files": "*.json",
+      "options": {
+        "tabWidth": 2
+      }
+    }
+  ]
+}
