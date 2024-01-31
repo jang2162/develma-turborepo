@@ -21,6 +21,7 @@
       <sourceFolder url="file://$MODULE_DIR$/packages/@util/tools/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/packages/@base/graphql/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/apps/storybook/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/packages/@ui/default/src" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
