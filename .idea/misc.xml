@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="PDMPlugin">
+    <option name="customRuleSets">
+      <list>
+        <option value="C:\_DEV_\ksaedu\EgovInspectionRules_kor-3.8.xml" />
+        <option value="C:\_DEV_\keep\EgovInspectionRules_kor-3.8.xml" />
+      </list>
+    </option>
     <option name="skipTestSources" value="false" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="corretto-11" project-jdk-type="JavaSDK">

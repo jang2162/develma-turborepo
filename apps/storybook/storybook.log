@@ -1,5 +1,0 @@
-npm WARN idealTree Removing dependencies.@storybook/addon-styling-webpack in favor of devDependencies.@storybook/addon-styling-webpack
-npm ERR! code EUNSUPPORTEDPROTOCOL
-npm ERR! Unsupported URL Type "workspace:": workspace:*
-
-npm ERR! A complete log of this run can be found in: C:\Users\jang2\AppData\Local\npm-cache\_logs\2023-12-06T10_12_53_758Z-debug-0.log

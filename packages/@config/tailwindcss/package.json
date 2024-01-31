@@ -19,7 +19,7 @@
   },
   "prettier": "@config/prettier",
   "dependencies": {
-    "tailwindcss": "^3.3.5"
+    "tailwindcss": "^3.4.1"
   },
   "devDependencies": {
     "@config/eslint-config": "workspace:*",

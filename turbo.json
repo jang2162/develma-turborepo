@@ -5,7 +5,7 @@
     "init": {},
     "lint": {},
     "build": {
-      "dependsOn": ["^init", "^lint", "^build"],
+      "dependsOn": ["^init", "^init", "^lint", "^build"],
       "outputs": [".next/**", "!.next/cache/**"]
     },
     "dev": {
