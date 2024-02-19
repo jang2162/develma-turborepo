@@ -1,4 +1,6 @@
 import { join, dirname } from 'path';
+import '@storybook/addon-console';
+import { setConsoleOptions } from '@storybook/addon-console';
 
 /**
  * This function is used to resolve the absolute path of a package.
@@ -8,16 +10,23 @@ function getAbsolutePath(value) {
     return dirname(require.resolve(join(value, 'package.json')));
 }
 
+const panelExclude = setConsoleOptions({}).panelExclude;
+setConsoleOptions({
+    panelExclude: [...panelExclude, /deprecated/],
+});
 /** @type { import('@storybook/react-webpack5').StorybookConfig } */
 const config = {
-    stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
+    stories: ['../src/stories/**/*.mdx', '../src/stories/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
     addons: [
         getAbsolutePath('@storybook/addon-links'),
+        getAbsolutePath('@storybook/addon-actions'),
+        getAbsolutePath('@storybook/addon-interactions'),
         getAbsolutePath('@storybook/addon-essentials'),
         getAbsolutePath('@storybook/preset-create-react-app'),
-        getAbsolutePath('@storybook/addon-onboarding'),
-        getAbsolutePath('@storybook/addon-interactions'),
-        getAbsolutePath('@storybook/addon-themes'),
+        getAbsolutePath('@storybook/addon-backgrounds'),
+        getAbsolutePath('@storybook/addon-viewport'),
+        getAbsolutePath('@storybook/addon-storysource'),
+        getAbsolutePath('storybook-dark-mode'),
     ],
     framework: {
         name: getAbsolutePath('@storybook/react-webpack5'),

@@ -6,7 +6,7 @@ export const config: Config = {
         './src/**/*.{js,ts,jsx,tsx}',
         '../../packages/@ui/default/src/**/*.{js,ts,jsx,tsx}',
     ],
-    darkMode: ['class', '[data-mode="dark"]'],
+    darkMode: 'class',
     theme: {
         extend: {
             fontFamily: {

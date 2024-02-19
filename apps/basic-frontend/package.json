@@ -13,6 +13,7 @@
   "dependencies": {
     "@apollo/experimental-nextjs-app-support": "^0.5.1",
     "@base/apollo-client": "workspace:*",
+    "@ui/default": "workspace:*",
     "@util/env": "workspace:*",
     "axios": "^1.6.0",
     "basic-graphql": "workspace:*",
@@ -21,8 +22,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "recoil": "^0.7.7",
-    "tailwindcss": "^3.4.1",
-    "@ui/default": "workspace:*"
+    "tailwindcss": "^3.4.1"
   },
   "devDependencies": {
     "@config/eslint-config": "workspace:*",

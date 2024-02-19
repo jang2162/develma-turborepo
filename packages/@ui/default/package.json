@@ -2,20 +2,9 @@
   "name": "@ui/default",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "@storybook/addon-styling-webpack": "^0.0.5",
-    "@storybook/addon-themes": "^7.6.3",
-    "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1",
-    "tailwindcss": "^3.4.1"
-  },
   "scripts": {
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "storybook": "storybook dev -p 6006"
   },
   "browserslist": {
     "production": [
@@ -30,6 +19,15 @@
     ]
   },
   "prettier": "@config/prettier",
+  "dependencies": {
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
+    "tailwindcss": "^3.4.1"
+  },
   "devDependencies": {
     "@config/eslint-config": "workspace:*",
     "@config/postcss": "workspace:*",
@@ -37,27 +35,35 @@
     "@config/stylelint": "workspace:*",
     "@config/tailwindcss": "workspace:*",
     "@config/tsconfig": "workspace:*",
-    "@storybook/addon-essentials": "^7.6.3",
-    "@storybook/addon-interactions": "^7.6.3",
-    "@storybook/addon-links": "^7.6.3",
-    "@storybook/addon-onboarding": "^1.0.9",
-    "@storybook/blocks": "^7.6.3",
-    "@storybook/preset-create-react-app": "^7.6.3",
-    "@storybook/react": "^7.6.3",
-    "@storybook/react-webpack5": "^7.6.3",
-    "@storybook/test": "^7.6.3",
+    "@storybook/addon-actions": "^7.6.16",
+    "@storybook/addon-backgrounds": "^7.6.16",
+    "@storybook/addon-console": "^3.0.0",
+    "@storybook/addon-docs": "^7.6.16",
+    "@storybook/addon-essentials": "^7.6.16",
+    "@storybook/addon-interactions": "^7.6.16",
+    "@storybook/addon-links": "^7.6.16",
+    "@storybook/addon-storysource": "^7.6.16",
+    "@storybook/addon-styling-webpack": "^0.0.6",
+    "@storybook/blocks": "^7.6.16",
+    "@storybook/preset-create-react-app": "^7.6.16",
+    "@storybook/preview-api": "^7.6.16",
+    "@storybook/react": "^7.6.16",
+    "@storybook/react-webpack5": "^7.6.16",
+    "@storybook/test": "^7.6.16",
+    "@storybook/theming": "^7.6.16",
     "@types/node": "^18.18.8",
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
     "autoprefixer": "^10.4.16",
+    "css-loader": "^6.8.1",
     "eslint-plugin-storybook": "^0.6.15",
     "postcss": "^8.4.31",
-    "prop-types": "^15.8.1",
-    "typescript": "^5.3.3",
-    "css-loader": "^6.8.1",
-    "style-loader": "^3.3.3",
-    "storybook": "^7.6.11",
     "postcss-loader": "^7.3.3",
+    "prop-types": "^15.8.1",
+    "storybook": "^7.6.16",
+    "storybook-dark-mode": "^3.0.3",
+    "style-loader": "^3.3.3",
+    "typescript": "^5.3.3",
     "webpack": "^5.89.0"
   }
 }
