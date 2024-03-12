@@ -35,6 +35,7 @@
     "@config/stylelint": "workspace:*",
     "@config/tailwindcss": "workspace:*",
     "@config/tsconfig": "workspace:*",
+    "@resources/fonts": "workspace:*",
     "@storybook/addon-actions": "^7.6.16",
     "@storybook/addon-backgrounds": "^7.6.16",
     "@storybook/addon-console": "^3.0.0",
@@ -63,7 +64,7 @@
     "storybook": "^7.6.16",
     "storybook-dark-mode": "^3.0.3",
     "style-loader": "^3.3.3",
-    "typescript": "^5.3.3",
+    "typescript": "^5.4.2",
     "webpack": "^5.89.0"
   }
 }

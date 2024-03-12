@@ -1,4 +1,4 @@
 {
     "root": true,
-    "extends": ["@config/eslint-config/frontend.js"],
+    "extends": ["@config/eslint-config/nextjs.js"],
 }

@@ -1,3 +1,23 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+    font-family: '__pretendardFont';
+    src: url('@resources/fonts/pretendard/PretendardVariable.woff2') format('woff2');
+    font-display: block;
+
+}
+
+@font-face {
+    font-family: '__pretendardFont_Fallback';
+    src: local("Arial");
+    ascent-override: 93.76%;
+    descent-override: 23.75%;
+    line-gap-override: 0.00%;
+    size-adjust: 101.55%;
+}
+
+html, :host {
+    --font-pretendard: '__pretendardFont', '__pretendardFont_Fallback';
+}

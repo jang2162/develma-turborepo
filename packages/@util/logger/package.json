@@ -27,7 +27,7 @@
     "@config/prettier": "workspace:*",
     "@config/tsconfig": "workspace:*",
     "@config/tsup": "workspace:*",
-    "tsup": "^7.2.0"
+    "tsup": "^8.0.2"
   },
   "publishConfig": {
     "access": "public"

@@ -5,6 +5,7 @@ export const config: Config = {
         './app/**/*.{js,ts,jsx,tsx}',
         './src/**/*.{js,ts,jsx,tsx}',
         '../../packages/@ui/default/src/**/*.{js,ts,jsx,tsx}',
+        '!../../packages/@ui/default/src/stories/**/*.{js,ts,jsx,tsx}',
     ],
     darkMode: 'class',
     theme: {

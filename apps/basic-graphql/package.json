@@ -20,6 +20,6 @@
     "@config/prettier": "workspace:*",
     "@config/tsconfig": "workspace:*",
     "@util/dir-sym-link": "workspace:*",
-    "typescript": "^5.3.3"
+    "typescript": "^5.4.2"
   }
 }

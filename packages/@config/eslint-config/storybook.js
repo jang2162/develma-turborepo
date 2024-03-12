@@ -1,3 +1,3 @@
 module.exports = {
-    extends: ['./frontend.js', 'plugin:storybook/recommended'],
+    extends: ['./nextjs.js', 'plugin:storybook/recommended'],
 };
