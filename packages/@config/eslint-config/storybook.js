@@ -1,3 +1,3 @@
 module.exports = {
-    extends: ['./nextjs.js', 'plugin:storybook/recommended'],
+    extends: ['./react.js', 'plugin:storybook/recommended'],
 };

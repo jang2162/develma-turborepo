@@ -29,7 +29,7 @@ module.exports = {
             },
         ],
     },
-    ignorePatterns: ['next.config.js', 'node_modules/'],
+    ignorePatterns: ['node_modules/'],
     settings: {
         react: {
             version: 'detect',
