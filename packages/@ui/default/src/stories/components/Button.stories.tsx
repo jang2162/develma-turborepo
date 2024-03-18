@@ -12,5 +12,7 @@ type Story = StoryObj<typeof Button>;
 
 export const Default: Story = {
     args: {},
-    render: (props) => <Button {...props}>test</Button>,
+    render: (props) => {
+        return <Button {...props}>test</Button>;
+    },
 };

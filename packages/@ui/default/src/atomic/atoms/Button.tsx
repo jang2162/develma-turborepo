@@ -1,10 +1,13 @@
-import { Button as HeadlessuiButton, ButtonProps as HeadlessuiButtonProps } from '@headlessui/react';
+import { Button as HButton, ButtonProps as HButtonProps } from '@headlessui/react';
 
-type ButtonProps = HeadlessuiButtonProps & {
-    overrideState?: 'hover' | 'focus' | 'active' | 'disabled';
+import { SIZE, STATE } from '../../constant';
+
+type ButtonProps = HButtonProps & {
+    overrideState?: STATE;
+    size?: SIZE;
 };
 const Button = (prop: ButtonProps) => {
-    return <HeadlessuiButton {...prop} />;
+    return <HButton className={'text-red-500'} {...prop} />;
 };
 
 export { Button };
