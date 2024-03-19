@@ -1,6 +1,9 @@
+import { useEffect } from 'react';
+
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Button } from '../../atomic/atoms/Button';
+import { ThemeProvider } from '../../ThemeProvider';
 
 const meta: Meta<typeof Button> = {
     component: Button,

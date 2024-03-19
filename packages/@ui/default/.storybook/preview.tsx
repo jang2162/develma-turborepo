@@ -1,10 +1,13 @@
 import '../src/tailwind.css';
+import { ThemeProvider } from '../src/ThemeProvider';
 import { useDarkMode } from 'storybook-dark-mode';
 import { DocsContainer } from '@storybook/addon-docs';
 import { themes } from '@storybook/theming';
+import { Preview } from '@storybook/react';
+import { useEffect } from 'react';
 
 /** @type { import('@storybook/react').Preview } */
-const preview = {
+const preview: Preview = {
     parameters: {
         actions: { argTypesRegex: '^on[A-Z].*' },
         controls: {
@@ -29,4 +32,15 @@ const preview = {
         },
     },
 };
+
 export default preview;
+
+export const decorators = [
+    (Story) => {
+        return (
+            <ThemeProvider>
+                <Story />
+            </ThemeProvider>
+        );
+    },
+];
