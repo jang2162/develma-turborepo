@@ -4,6 +4,11 @@ import { Button } from '../../atomic/atoms/Button';
 
 const meta: Meta<typeof Button> = {
     component: Button,
+    tags: ['autodocs'],
+    argTypes: {
+        overrideState: { control: 'select' },
+        size: { control: 'select' },
+    },
 };
 
 export default meta;
@@ -11,8 +16,10 @@ export default meta;
 type Story = StoryObj<typeof Button>;
 
 export const Default: Story = {
-    args: {},
+    args: {
+        label: 'sample button',
+    },
     render: (props) => {
-        return <Button {...props}>test</Button>;
+        return <Button {...props} />;
     },
 };

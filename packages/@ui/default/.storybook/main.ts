@@ -23,9 +23,6 @@ const config = {
         getAbsolutePath('@storybook/addon-essentials'),
         getAbsolutePath('@storybook/addon-interactions'),
         getAbsolutePath('@storybook/preset-create-react-app'),
-        getAbsolutePath('@storybook/addon-backgrounds'),
-        getAbsolutePath('@storybook/addon-viewport'),
-        getAbsolutePath('@storybook/addon-storysource'),
         getAbsolutePath('storybook-dark-mode'),
     ],
     framework: {

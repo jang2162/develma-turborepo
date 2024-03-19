@@ -26,7 +26,7 @@ module.exports = {
             },
         ],
         '@typescript-eslint/explicit-module-boundary-types': 'off',
-        '@typescript-eslint/quotes': ['error', 'single'],
+        quotes: ['error', 'single', { avoidEscape: true }],
         'import/first': 'error',
         'import/no-amd': 'error',
         'import/no-extraneous-dependencies': 'off',

@@ -1,23 +1,73 @@
+@import 'material-symbols';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @font-face {
-    font-family: '__pretendardFont';
-    src: url('@resources/fonts/pretendard/PretendardVariable.woff2') format('woff2');
-    font-display: block;
-
+  src: url('@resources/fonts/pretendard/PretendardVariable.woff2') format('woff2');
+  font-family: '__pretendardFont';
+  font-display: block;
 }
 
 @font-face {
-    font-family: '__pretendardFont_Fallback';
-    src: local("Arial");
-    ascent-override: 93.76%;
-    descent-override: 23.75%;
-    line-gap-override: 0.00%;
-    size-adjust: 101.55%;
+  size-adjust: 101.55%;
+  src: local('Arial');
+  font-family: '__pretendardFont_Fallback';
+  ascent-override: 93.76%;
+  descent-override: 23.75%;
+  line-gap-override: 0%;
 }
 
-html, :host {
-    --font-pretendard: '__pretendardFont', '__pretendardFont_Fallback';
+@font-face {
+  src: url('@resources/fonts/material-symbols/material-symbols-outlined.woff2') format('woff2');
+  font-family: '__materialSymbolsoutlinedFont';
+  font-display: swap;
+}
+
+@font-face {
+  size-adjust: 219.15%;
+  src: local('Arial');
+  font-family: '__materialSymbolsoutlinedFont_Fallback';
+  ascent-override: 50.19%;
+  descent-override: 4.56%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  src: url('@resources/fonts/material-symbols/material-symbols-rounded.woff2') format('woff2');
+  font-family: '__materialSymbolsroundedFont';
+  font-display: swap;
+}
+
+@font-face {
+  size-adjust: 219.15%;
+  src: local('Arial');
+  font-family: '__materialSymbolsroundedFont_Fallback';
+  ascent-override: 50.19%;
+  descent-override: 4.56%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  src: url('@resources/fonts/material-symbols/material-symbols-sharp.woff2') format('woff2');
+  font-family: '__materialSymbolssharpFont';
+  font-display: swap;
+}
+
+@font-face {
+  size-adjust: 219.15%;
+  src: local('Arial');
+  font-family: '__materialSymbolssharpFont_Fallback';
+  ascent-override: 50.19%;
+  descent-override: 4.56%;
+  line-gap-override: 0%;
+}
+
+html,
+:host {
+  --font-pretendard: '__pretendardFont', '__pretendardFont_Fallback';
+  --font-material-symbols-outlined: '__materialSymbolsoutlinedFont', '__materialSymbolsoutlinedFont_Fallback';
+  --font-material-symbols-rounded: '__materialSymbolsroundedFont', '__materialSymbolsroundedFont_Fallback';
+  --font-material-symbols-sharp: '__materialSymbolssharpFont', '__materialSymbolssharpFont_Fallback';
 }
