@@ -17,51 +17,35 @@ type IconProps = HTMLAttributes<{}> & {
     /** 아이콘 스타일*/
     iconStyle?: 'outlined' | 'rounded' | 'sharp';
 
-    /** (type material-symbols) */
+    /** (type == material-symbols) */
     fill?: boolean;
 
-    /** (type material-symbols) */
+    /** (type == material-symbols) */
     weight?: 100 | 200 | 300 | 400 | 500 | 600 | 700;
 
-    /** (type material-symbols) */
+    /** (type == material-symbols) */
     grade?: -25 | 0 | 200;
 
-    /** (type material-symbols) */
+    /** (type == material-symbols) */
     opticalSize?: 20 | 24 | 40 | 48;
 
-    /** (type material-symbols) */
+    /** (type == material-symbols) */
     gl?: MaterialSymbol;
 
-    /** (type image) 이미지 경로 */
+    /** (type == image) 이미지 경로 */
     src?: string;
 } & (
         | {
-              /** 아이콘 유형 */
               type: 'material-symbols';
-
-              /** 아이콘 스타일*/
               iconStyle: 'outlined' | 'rounded' | 'sharp';
-
-              /** (type material-symbols) */
               fill?: boolean;
-
-              /** (type material-symbols) */
               weight?: 100 | 200 | 300 | 400 | 500 | 600 | 700;
-
-              /** (type material-symbols) */
               grade?: -25 | 0 | 200;
-
-              /** (type material-symbols) */
               opticalSize?: 20 | 24 | 40 | 48;
-
-              /** (type material-symbols) */
               gl: MaterialSymbol;
           }
         | {
-              /** 아이콘 유형 */
               type: 'image';
-
-              /** (type image) 이미지 경로 */
               src: string;
           }
     );
@@ -69,13 +53,13 @@ type IconProps = HTMLAttributes<{}> & {
 const icon = cva('inline-block text-nowrap not-italic', {
     variants: {
         size: {
-            sm: 'h-5 text-[1.25rem] leading-none',
-            md: 'h-6 text-[1.5rem] leading-none',
-            lg: 'h-10 text-[2.5rem] leading-none',
-            xl: 'h-12 text-[3rem] leading-none',
+            sm: 'h-5 min-w-5 text-[1.25rem] leading-none',
+            md: 'h-6 min-w-6 text-[1.5rem] leading-none',
+            lg: 'h-10 min-w-10 text-[2.5rem] leading-none',
+            xl: 'h-12 min-w-12 text-[3rem] leading-none',
         },
         type: {
-            image: 'w-auto',
+            image: 'w-auto object-contain object-center',
             'material-symbols': '',
         },
         iconStyle: {
@@ -94,10 +78,8 @@ const icon = cva('inline-block text-nowrap not-italic', {
 const Icon = (prop: IconProps) => {
     const { type, size } = prop;
     if (type === 'image') {
-        prop;
         return <img alt={''} src={prop.src} className={twMerge(icon({ size, type }), prop.className)} />;
-    } else {
-        prop;
+    } else if (type === 'material-symbols') {
         const {
             fill = false,
             weight = 400,
