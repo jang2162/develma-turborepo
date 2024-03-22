@@ -11,10 +11,10 @@ type IconProps = HTMLAttributes<{}> & {
     /** 아이콘 유형 */
     type: 'material-symbols' | 'image';
 
-    /** 아이콘 크기 */
-    size?: SIZE;
+    /** (type == material-symbols) 아이콘 크기 */
+    size?: Exclude<SIZE, 'xs'>;
 
-    /** 아이콘 스타일*/
+    /** (type == material-symbols) 아이콘 스타일*/
     iconStyle?: 'outlined' | 'rounded' | 'sharp';
 
     /** (type == material-symbols) */
