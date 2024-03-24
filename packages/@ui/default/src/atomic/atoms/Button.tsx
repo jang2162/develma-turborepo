@@ -21,7 +21,7 @@ type ButtonProps = Omit<HButtonProps, 'className'> &
         overrideState?: STATE;
     };
 
-const button = cva('', {
+const button = cva('text-aa-40', {
     variants: {
         size: {
             xs: 'px-2 py-1 text-sm',

@@ -1,5 +1,5 @@
 {
-  "name": "@config/tsup",
+  "name": "@util/design-token",
   "version": "0.0.0",
   "private": true,
   "license": "MIT",
@@ -19,13 +19,14 @@
   },
   "prettier": "@config/prettier",
   "dependencies": {
-    "tsup": "^8.0.2"
+    "tailwindcss": "^3.4.1"
   },
   "devDependencies": {
     "@config/eslint-config": "workspace:*",
     "@config/prettier": "workspace:*",
     "@config/tsconfig": "workspace:*",
-    "@types/node": "^20.11.30"
+    "@config/tsup": "workspace:*",
+    "tsup": "^8.0.2"
   },
   "publishConfig": {
     "access": "public"

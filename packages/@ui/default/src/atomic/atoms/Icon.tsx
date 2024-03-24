@@ -53,10 +53,10 @@ type IconProps = HTMLAttributes<{}> & {
 const icon = cva('inline-block text-nowrap not-italic', {
     variants: {
         size: {
-            sm: 'h-5 min-w-5 text-[1.25rem] leading-none',
+            sm: 'text-pri bg-pri h-5 min-w-5 text-[1.25rem] leading-none',
             md: 'h-6 min-w-6 text-[1.5rem] leading-none',
             lg: 'h-10 min-w-10 text-[2.5rem] leading-none',
-            xl: 'h-12 min-w-12 text-[3rem] leading-none',
+            xl: 'h-12 min-w-12 bg-ccc-60 text-[3rem] leading-none',
         },
         type: {
             image: 'w-auto object-contain object-center',
@@ -64,7 +64,7 @@ const icon = cva('inline-block text-nowrap not-italic', {
         },
         iconStyle: {
             outlined: 'font-material-symbols-outlined',
-            rounded: 'font-material-symbols-rounded',
+            rounded: 'font-material-symbols-rounded ',
             sharp: 'font-material-symbols-sharp',
         },
     },
