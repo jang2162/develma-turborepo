@@ -1,47 +1,253 @@
-import {blue} from 'tailwindcss/colors';
-type RefValue = { value: string | number };
-type RefColor = { value: [number, number, number] };
+type RefValue<T> = { value: T };
 
-type RefColorVariable<REF_TOKEN> = Record<string, RefValue>;
+type RefValueEtc = RefValue<string | number>;
 
-type RefColorTokens<
-    REF_TOKEN extends Record<string, RefValue | REF_TOKEN_KEYS>,
-    REF_TOKEN_KEYS extends keyof REF_TOKEN,
-> = {
-    variable: REF_TOKEN;
-    computed: Record<Exclude<string, keyof REF_TOKEN>, any>;
+type RefValueColor = RefValue<{ rgb: [number, number, number]; alpha?: number }>;
+
+type RefVariable<VAL, REF_VARS> = Record<string, VAL | keyof REF_VARS>;
+
+type SystemVariable<VAL, REF_VARS, SYS_VARS> = Record<string, keyof REF_VARS | keyof SYS_VARS | VAL>;
+type SubSystemVariable<VAL, REF_VARS, SYS_VARS> = Partial<
+    Record<keyof SYS_VARS, keyof REF_VARS | keyof SYS_VARS | VAL>
+>;
+
+type RefTokenParam<PARAM extends RefTokenParam<PARAM>> = {
+    colors: RefVariable<RefValueColor, PARAM['colors']>;
+    etc: RefVariable<RefValueEtc, PARAM['etc']>;
 };
 
-type RefTokenInjectorFn<REF_TOKEN_KEYS> = (key: REF_TOKEN_KEYS) => RefValue;
-// type SystemToken<REF_TOKEN, SYSTEM_TOKEN> = Record<
-//     Exclude<string, keyof REF_TOKEN>,
-//     keyof REF_TOKEN | keyof SYSTEM_TOKEN | RefType
-// >;
+type RefTokenDist<PARAM extends RefTokenParam<PARAM>> = {
+    colors: Record<keyof PARAM['colors'], RefValueColor>;
+    etc: Record<keyof PARAM['etc'], RefValueEtc>;
+};
 
-function buildRefTokens<REF_TOKEN extends RefTokens<REF_TOKEN>>(refTokens: REF_TOKEN): void {
-    console.log(refTokens);
+type RefTokenResult<PARAM extends RefTokenParam<PARAM>> = {
+    param: RefTokenParam<PARAM>;
+    dist: RefTokenDist<PARAM>;
+};
+
+type SystemTokenParam<REF_PARAM extends RefTokenParam<REF_PARAM>, PARAM extends SystemTokenParam<REF_PARAM, PARAM>> = {
+    colors: SystemVariable<RefValueColor, REF_PARAM['colors'], PARAM['colors']>;
+    etc: SystemVariable<RefValueEtc, REF_PARAM['etc'], PARAM['etc']>;
+};
+
+type SystemTokenDist<REF_PARAM extends RefTokenParam<REF_PARAM>, PARAM extends SystemTokenParam<REF_PARAM, PARAM>> = {
+    colors: Record<keyof PARAM['colors'], RefValueColor>;
+    etc: Record<keyof PARAM['etc'], RefValueEtc>;
+};
+
+type SystemTokenResult<REF_PARAM extends RefTokenParam<REF_PARAM>, PARAM extends SystemTokenParam<REF_PARAM, PARAM>> = {
+    param: SystemTokenParam<REF_PARAM, PARAM>;
+    dist: SystemTokenDist<REF_PARAM, PARAM>;
+};
+
+type SubSystemTokenParam<
+    REF_PARAM extends RefTokenParam<REF_PARAM>,
+    PARAM extends SystemTokenParam<REF_PARAM, PARAM>,
+> = {
+    colors: SubSystemVariable<RefValueColor, REF_PARAM['colors'], PARAM['colors']>;
+    etc: SubSystemVariable<RefValueEtc, REF_PARAM['etc'], PARAM['etc']>;
+};
+
+type DesignToken<REF_PARAM extends RefTokenParam<REF_PARAM>, PARAM extends SystemTokenParam<REF_PARAM, PARAM>> = {
+    refToken: RefTokenResult<REF_PARAM>;
+    systemToken: SystemTokenResult<REF_PARAM, PARAM>;
+    options: {
+        prefix?: string;
+        singleTheme?: boolean;
+        checkDuplicate?: boolean;
+    };
+};
+
+function extractRefValue<T, VARS extends RefVariable<T, VARS>>(
+    debugStr: string,
+    key: string,
+    vars: VARS,
+    cache: { [key in string]: T },
+    refStack: string[] = [],
+): T {
+    const value = vars[key];
+    if (typeof value === 'string') {
+        if (value in cache) {
+            return cache[value];
+        }
+        if (refStack.includes(value)) {
+            throw new Error(`Circular reference detected: ${debugStr} -> ${refStack.join(' -> ')} -> ${value}`);
+        }
+        return (cache[key] = extractRefValue<T, VARS>(debugStr, value, vars, cache, [...refStack, key]));
+    } else if (typeof value === 'object') {
+        return value;
+    }
+    throw new Error(`Cannot found token value. (${debugStr}: ${key})`);
 }
-// function buildSystemTokens<REF_TOKEN, SYSTEM_TOKEN>(
-//     refTokens: RefTokens<REF_TOKEN>,
-//     systemToken: SystemToken<REF_TOKEN, SYSTEM_TOKEN>,
-// ): SystemToken<REF_TOKEN, SYSTEM_TOKEN> {
-//     return systemToken;
-// }
 
-// export type {RefType, RefTokens, SystemToken };
-// export { buildRefTokens, buildSystemTokens };
+function extractSystemValue<
+    T,
+    REF_VARS extends Record<string, T>,
+    SYS_VARS extends SystemVariable<T, REF_VARS, SYS_VARS>,
+>(
+    debugStr: string,
+    key: string,
+    refVars: REF_VARS,
+    sysRefVars: SYS_VARS,
+    cache: { [key in string]: T },
+    refStack: string[] = [],
+): T {
+    const sysValue = sysRefVars[key];
+    if (typeof sysValue === 'string') {
+        if (sysValue in cache) {
+            return cache[sysValue];
+        }
+        if (refStack.includes(sysValue)) {
+            throw new Error(`Circular reference detected: ${debugStr} -> ${refStack.join(' -> ')} -> ${sysValue}`);
+        }
+        return (cache[key] = extractSystemValue<T, REF_VARS, SYS_VARS>(debugStr, sysValue, refVars, sysRefVars, cache, [
+            ...refStack,
+            key,
+        ]));
+    } else if (typeof sysValue === 'object') {
+        return sysValue;
+    } else if (key in refVars) {
+        return refVars[key];
+    }
+    throw new Error(`Cannot found token value. (${debugStr}: ${key})`);
+}
 
-buildRefTokens({
-    a: { value: 123 },
-    aa: { value: 123 },
-    aaa: { value: 123 },
-    aaaa: 'aaa',
-    aa1aa: 'aaa',
-    aa2aa: '',
-    aaa4a: 'aaa',
+export function buildRefTokens<PARAM extends RefTokenParam<PARAM>>(refTokens: PARAM): RefTokenResult<PARAM> {
+    const dist = {
+        colors: {
+            ...refTokens.colors,
+        },
+        etc: {
+            ...refTokens.etc,
+        },
+    };
+
+    const colorCache: { [key in string]: RefValueColor } = {};
+    for (const i in dist.colors) {
+        const val = dist.colors[i];
+        if (typeof val === 'string') {
+            dist.colors[i] = extractRefValue('refColor', val, refTokens.colors, colorCache);
+        }
+    }
+
+    const etcCache: { [key in string]: RefValueEtc } = {};
+    for (const i in dist.etc) {
+        const val = dist.etc[i];
+        if (typeof val === 'string') {
+            dist.etc[i] = extractRefValue('refEtc', val, refTokens.etc, etcCache);
+        }
+    }
+
+    return {
+        dist: dist as RefTokenDist<PARAM>,
+        param: refTokens,
+    };
+}
+
+export function buildDesignToken<
+    REF_PARAM extends RefTokenParam<REF_PARAM>,
+    PARAM extends SystemTokenParam<REF_PARAM, PARAM>,
+>(
+    refToken: RefTokenResult<REF_PARAM>,
+    systemTokens: PARAM,
+    { prefix = '', checkDuplicate = true, singleTheme = true }: DesignToken<REF_PARAM, PARAM>['options'] = {
+        prefix: '',
+        checkDuplicate: true,
+        singleTheme: true,
+    },
+): DesignToken<REF_PARAM, PARAM> {
+    const options = { prefix, checkDuplicate, singleTheme };
+
+    const dist = {
+        colors: {
+            ...systemTokens.colors,
+        },
+        etc: {
+            ...systemTokens.etc,
+        },
+    };
+
+    const colorCache: { [key in string]: RefValueColor } = {};
+    for (const i in dist.colors) {
+        const val = dist.colors[i];
+        if (typeof val === 'string') {
+            dist.colors[i] = extractSystemValue('sysColor', val, refToken.dist.colors, systemTokens.colors, colorCache);
+        }
+    }
+
+    const etcCache: { [key in string]: RefValueEtc } = {};
+    for (const i in dist.etc) {
+        const val = dist.etc[i];
+        if (typeof val === 'string') {
+            dist.etc[i] = extractSystemValue('sysEtc', val, refToken.dist.etc, systemTokens.etc, etcCache);
+        }
+    }
+
+    return {
+        refToken,
+        systemToken: {
+            dist: dist as SystemTokenDist<REF_PARAM, PARAM>,
+            param: systemTokens,
+        },
+        options,
+    };
+}
+
+export function buildSubSystemToken<
+    REF_PARAM extends RefTokenParam<REF_PARAM>,
+    SYS_PARAM extends SystemTokenParam<REF_PARAM, SYS_PARAM>,
+    PARAM extends SubSystemTokenParam<REF_PARAM, SYS_PARAM>,
+>(designToken: DesignToken<REF_PARAM, SYS_PARAM>, subSystemTokens: PARAM): PARAM {
+    if (designToken.options.singleTheme) {
+        throw new Error('Single theme is not supported');
+    }
+
+    return subSystemTokens;
+}
+
+export type {
+    RefValue,
+    RefValueEtc,
+    RefValueColor,
+    RefVariable,
+    SystemVariable,
+    SystemTokenParam,
+    SystemTokenDist,
+    SystemTokenResult,
+    RefTokenParam,
+    RefTokenDist,
+    RefTokenResult,
+    DesignToken,
+};
+
+const refToken = buildRefTokens({
+    colors: {
+        a1: 'a2',
+        a2: 'a1',
+        a3: { value: { rgb: [255, 2, 3] } },
+        a4: { value: { rgb: [1, 255, 3] } },
+        a5: { value: { rgb: [1, 2, 255] } },
+        test: { value: { rgb: [1, 2, 255] } },
+    },
+    etc: {
+        b1: { value: 123 },
+        b2: 'b1',
+        a2: 'b2',
+    },
 });
 
+export const designToken = buildDesignToken(refToken, {
+    colors: {
+        test2: 'a3',
+        test3: 'test2',
+    },
+    etc: {},
+});
 
-function test<T>(a: T extends RefColorVariable<T>) {
-    console.log(a);
-}
+export const subSystemToken = buildSubSystemToken(designToken, {
+    colors: {
+        test2: 'a3',
+    },
+    etc: {},
+});

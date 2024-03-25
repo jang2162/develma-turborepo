@@ -16,21 +16,6 @@ import type { Config } from 'tailwindcss';
 //         | RefValue
 //         | ((injector: (key: keyof REF_TOKEN | keyof SYSTEM_TOKEN) => RefValue) => RefValue);
 // };
-//
-// function extractRefValue<REF_TOKEN>(
-//     key: string,
-//     ref: { [key in string]: string | RefValue | ((injector: (key: string) => RefValue) => RefValue) },
-// ): RefValue {
-//     const value = ref[key];
-//     if (typeof value === 'function') {
-//         return value((key2: string) => extractRefValue(key2, ref));
-//     } else if (typeof value === 'string') {
-//         return extractRefValue<REF_TOKEN>(value, ref);
-//     } else if (typeof value === 'object') {
-//         return value;
-//     }
-// }
-//
 // function buildRefTokens<REF_TOKEN>(refTokens: RefTokens<REF_TOKEN>): {
 //     [key in keyof REF_TOKEN]: RefValue | null;
 // } {
