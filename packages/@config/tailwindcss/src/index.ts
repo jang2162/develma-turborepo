@@ -1,3 +1,5 @@
+import { DesignToken, RefTokenParam, SystemTokenParam } from '@util/design-token';
+import Color from 'color';
 import type { Config } from 'tailwindcss';
 import * as defaultTheme from 'tailwindcss/defaultTheme';
 
@@ -35,3 +37,34 @@ export const config: Config = {
         },
     },
 };
+export function withTailwindTheme<
+    REF_PARAM extends RefTokenParam<REF_PARAM>,
+    PARAM extends SystemTokenParam<REF_PARAM, PARAM>,
+>(
+    baseConfig: Config | null,
+    designToken: DesignToken<REF_PARAM, PARAM>,
+    overrides: (config: Config) => Config = (config) => config,
+): Config {
+    if (!baseConfig) baseConfig = config;
+    if (!baseConfig.theme) baseConfig.theme = {};
+
+    baseConfig.theme.colors = {};
+    const { prefix, singleTheme } = designToken.options;
+    for (const key in designToken.refToken.dist.colors) {
+        const colorKey = `${prefix ? `${prefix}-` : ''}ref-${key}`.replaceAll('.', '-').toLowerCase();
+        const c = Color(designToken.refToken.dist.colors[key].value);
+        baseConfig.theme.colors[colorKey] = c.hex();
+    }
+
+    for (const key in designToken.systemToken.dist.colors) {
+        const colorKey = `${prefix ? `${prefix}-` : ''}sys-${key}`.replaceAll('.', '-').toLowerCase();
+        const varKey = `${prefix ? `${prefix}-` : ''}sys-color-${key}`.replaceAll('.', '-').toLowerCase();
+        if (singleTheme) {
+            const c = Color(designToken.systemToken.dist.colors[key].value);
+            baseConfig.theme.colors[colorKey] = c.hex();
+        } else {
+            baseConfig.theme.colors[colorKey] = `rgb(var(--${varKey}) / <alpha-value>)`;
+        }
+    }
+    return overrides(baseConfig);
+}

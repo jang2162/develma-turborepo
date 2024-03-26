@@ -13,6 +13,8 @@
     "noUnusedParameters": false,
     "preserveWatchOutput": true,
     "skipLibCheck": true,
+    "target": "es5",
+    "lib": ["es2021", "dom"],
     "strict": true
   },
   "exclude": ["node_modules"]

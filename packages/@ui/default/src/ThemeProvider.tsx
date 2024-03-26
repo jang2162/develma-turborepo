@@ -32,10 +32,7 @@ export const ThemeProvider = ({ children }: { children?: ReactNode }) => {
     });
     return (
         <ThemeContext.Provider value={theme}>
-            <div className="text-cc p-1 text-5xl">
-                ad asd a dsad
-                <ThemeDispatchContext.Provider value={dispatch}>{children}</ThemeDispatchContext.Provider>
-            </div>
+            <ThemeDispatchContext.Provider value={dispatch}>{children}</ThemeDispatchContext.Provider>
         </ThemeContext.Provider>
     );
 };

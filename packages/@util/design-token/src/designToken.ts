@@ -1,8 +1,8 @@
 type RefValue<T> = { value: T };
 
-type RefValueEtc = RefValue<string | number>;
+type RefValueEtc = RefValue<string>;
 
-type RefValueColor = RefValue<{ rgb: [number, number, number]; alpha?: number }>;
+type RefValueColor = RefValue<[number, number, number]>;
 
 type RefVariable<VAL, REF_VARS> = Record<string, VAL | keyof REF_VARS>;
 
@@ -71,7 +71,7 @@ function extractRefValue<T, VARS extends RefVariable<T, VARS>>(
         if (value in cache) {
             return cache[value];
         }
-        if (refStack.includes(value)) {
+        if (refStack.indexOf(value) >= 0) {
             throw new Error(`Circular reference detected: ${debugStr} -> ${refStack.join(' -> ')} -> ${value}`);
         }
         return (cache[key] = extractRefValue<T, VARS>(debugStr, value, vars, cache, [...refStack, key]));
@@ -98,7 +98,7 @@ function extractSystemValue<
         if (sysValue in cache) {
             return cache[sysValue];
         }
-        if (refStack.includes(sysValue)) {
+        if (refStack.indexOf(sysValue) >= 0) {
             throw new Error(`Circular reference detected: ${debugStr} -> ${refStack.join(' -> ')} -> ${sysValue}`);
         }
         return (cache[key] = extractSystemValue<T, REF_VARS, SYS_VARS>(debugStr, sysValue, refVars, sysRefVars, cache, [
@@ -151,13 +151,13 @@ export function buildDesignToken<
 >(
     refToken: RefTokenResult<REF_PARAM>,
     systemTokens: PARAM,
-    { prefix = '', checkDuplicate = true, singleTheme = true }: DesignToken<REF_PARAM, PARAM>['options'] = {
+    options: DesignToken<REF_PARAM, PARAM>['options'] = {
         prefix: '',
         checkDuplicate: true,
         singleTheme: true,
     },
 ): DesignToken<REF_PARAM, PARAM> {
-    const options = { prefix, checkDuplicate, singleTheme };
+    const { prefix = '', checkDuplicate = true, singleTheme = true } = options;
 
     const dist = {
         colors: {
@@ -190,7 +190,11 @@ export function buildDesignToken<
             dist: dist as SystemTokenDist<REF_PARAM, PARAM>,
             param: systemTokens,
         },
-        options,
+        options: {
+            prefix,
+            checkDuplicate,
+            singleTheme,
+        },
     };
 }
 
@@ -215,39 +219,9 @@ export type {
     SystemTokenParam,
     SystemTokenDist,
     SystemTokenResult,
+    SubSystemTokenParam,
     RefTokenParam,
     RefTokenDist,
     RefTokenResult,
     DesignToken,
 };
-
-const refToken = buildRefTokens({
-    colors: {
-        a1: 'a2',
-        a2: 'a1',
-        a3: { value: { rgb: [255, 2, 3] } },
-        a4: { value: { rgb: [1, 255, 3] } },
-        a5: { value: { rgb: [1, 2, 255] } },
-        test: { value: { rgb: [1, 2, 255] } },
-    },
-    etc: {
-        b1: { value: 123 },
-        b2: 'b1',
-        a2: 'b2',
-    },
-});
-
-export const designToken = buildDesignToken(refToken, {
-    colors: {
-        test2: 'a3',
-        test3: 'test2',
-    },
-    etc: {},
-});
-
-export const subSystemToken = buildSubSystemToken(designToken, {
-    colors: {
-        test2: 'a3',
-    },
-    etc: {},
-});

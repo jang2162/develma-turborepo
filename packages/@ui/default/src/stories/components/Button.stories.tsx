@@ -23,6 +23,6 @@ export const Default: Story = {
         label: 'sample button',
     },
     render: (props) => {
-        return <Button {...props} />;
+        return <Button className={'text-tt-sys-test3'} {...props} />;
     },
 };

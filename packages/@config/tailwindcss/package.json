@@ -19,6 +19,8 @@
   },
   "prettier": "@config/prettier",
   "dependencies": {
+    "@util/design-token": "workspace:*",
+    "color": "^4.2.3",
     "tailwindcss": "^3.4.1"
   },
   "devDependencies": {
@@ -26,6 +28,8 @@
     "@config/prettier": "workspace:*",
     "@config/tsconfig": "workspace:*",
     "@config/tsup": "workspace:*",
+    "@swc/core": "^1.4.8",
+    "@types/color": "^3.0.6",
     "@types/node": "^20.11.30",
     "tsup": "^8.0.2"
   },
