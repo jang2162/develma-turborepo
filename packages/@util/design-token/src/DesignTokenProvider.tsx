@@ -16,7 +16,7 @@ export const useSubSystemTokenDispatch = () => {
     return dispatch;
 };
 
-export const useCssVariableFromSubSystemToken = (subDesignToken: SubSystemTokenResult<any, any, any> | null) => {
+export const useCssVariableFromSubSystemToken = (subDesignToken: SubSystemTokenResult<any, any> | null) => {
     const variables = useMemo(() => {
         if (subDesignToken == null) {
             return null;
@@ -26,16 +26,20 @@ export const useCssVariableFromSubSystemToken = (subDesignToken: SubSystemTokenR
         const memo: Record<string, string> = {};
         for (const key in subDesignToken.param.colors) {
             const varKey = `${prefix ? `${prefix}-` : ''}sys-color-${key}`.replaceAll('.', '-').toLowerCase();
-            if (typeof subDesignToken.param.colors[key] === 'string') {
+            const paramVal = subDesignToken.param.colors[key];
+            if (typeof paramVal === 'string') {
+                console.log(designToken.systemToken.param.colors);
                 const varRefKey = `${prefix ? `${prefix}-` : ''}${
-                    key in designToken.systemToken.param.colors ? 'sys' : 'ref'
-                }-color-${subDesignToken.param.colors[key]}`
+                    paramVal in designToken.systemToken.param.colors ? 'sys' : 'ref'
+                }-color-${paramVal}`
                     .replaceAll('.', '-')
                     .toLowerCase();
                 memo[varKey] = `var(--${varRefKey})`;
-            } else {
-                const c = Color(subDesignToken.param.colors[key].value);
+            } else if (typeof paramVal === 'object') {
+                const c = Color(paramVal.value);
                 memo[varKey] = `${c.red()} ${c.green()} ${c.blue()}`;
+            } else {
+                throw new Error(`Invalid type: ${key}`);
             }
         }
 
@@ -44,16 +48,19 @@ export const useCssVariableFromSubSystemToken = (subDesignToken: SubSystemTokenR
             if (checkDuplicate && memo[varKey]) {
                 throw new Error(`Duplicate key: 'key'. (varName: ${varKey})`);
             }
+            const paramVal = subDesignToken.param.etc[key];
 
-            if (typeof subDesignToken.param.etc[key] === 'string') {
+            if (typeof paramVal === 'string') {
                 const varRefKey = `${prefix ? `${prefix}-` : ''}${
-                    key in designToken.systemToken.param.etc ? 'sys' : 'ref'
-                }-etc-${subDesignToken.param.etc[key]}`
+                    paramVal in designToken.systemToken.param.etc ? 'sys' : 'ref'
+                }-etc-${paramVal}`
                     .replaceAll('.', '-')
                     .toLowerCase();
                 memo[varKey] = `var(--${varRefKey})`;
+            } else if (typeof paramVal === 'object') {
+                memo[varKey] = paramVal.value;
             } else {
-                memo[varKey] = subDesignToken.param.etc[key].value;
+                throw new Error(`Invalid type: ${key}`);
             }
         }
         return memo;
@@ -73,7 +80,7 @@ export const DesignTokenProvider = ({
     if (p) {
         throw new Error('DesignTokenProvider is already defined');
     }
-    const [subDesignToken, setSubDesignToken] = useState<SubSystemTokenResult<any, any, any> | null>(null);
+    const [subDesignToken, setSubDesignToken] = useState<SubSystemTokenResult<any, any> | null>(null);
     if (subDesignToken && singleTheme) {
         throw new Error('Single theme is not supported');
     }
@@ -97,15 +104,15 @@ export const DesignTokenProvider = ({
             if (checkDuplicate && memo[varKey]) {
                 throw new Error(`Duplicate key: 'key'. (varName: ${varKey})`);
             }
-            if (typeof designToken.systemToken.param.colors[key] === 'string') {
-                const varRefKey = `${prefix ? `${prefix}-` : ''}${
-                    designToken.systemToken.dist.colors[key].isSystem ? 'sys' : 'ref'
-                }-color-${designToken.systemToken.param.colors[key]}`
+            const paramVal = designToken.systemToken.param.colors[key];
+            const distVal = designToken.systemToken.dist.colors[key];
+            if (typeof paramVal === 'string') {
+                const varRefKey = `${prefix ? `${prefix}-` : ''}${distVal.isSystem ? 'sys' : 'ref'}-color-${paramVal}`
                     .replaceAll('.', '-')
                     .toLowerCase();
                 memo[varKey] = `var(--${varRefKey})`;
             } else {
-                const c = Color(designToken.systemToken.param.colors[key].value);
+                const c = Color(paramVal.value);
                 memo[varKey] = `${c.red()} ${c.green()} ${c.blue()}`;
             }
         }
@@ -123,16 +130,15 @@ export const DesignTokenProvider = ({
             if (checkDuplicate && memo[varKey]) {
                 throw new Error(`Duplicate key: 'key'. (varName: ${varKey})`);
             }
-
-            if (typeof designToken.systemToken.param.etc[key] === 'string') {
-                const varRefKey = `${prefix ? `${prefix}-` : ''}${
-                    designToken.systemToken.dist.etc[key].isSystem ? 'sys' : 'ref'
-                }-etc-${designToken.systemToken.param.etc[key]}`
+            const paramVal = designToken.systemToken.param.etc[key];
+            const distVal = designToken.systemToken.dist.etc[key];
+            if (typeof paramVal === 'string') {
+                const varRefKey = `${prefix ? `${prefix}-` : ''}${distVal.isSystem ? 'sys' : 'ref'}-etc-${paramVal}`
                     .replaceAll('.', '-')
                     .toLowerCase();
                 memo[varKey] = `var(--${varRefKey})`;
             } else {
-                memo[varKey] = designToken.systemToken.param.etc[key].value;
+                memo[varKey] = paramVal.value;
             }
         }
         return memo;
@@ -161,7 +167,7 @@ export const SubDesignTokenProvider = ({
     children,
 }: {
     children?: ReactNode;
-    subSystemToken?: SubSystemTokenResult<any, any, any> | null;
+    subSystemToken?: SubSystemTokenResult<any, any> | null;
 }) => {
     const [subDesignToken, setSubDesignToken] = useState(subSystemToken);
     const designToken = useContext(DesignTokenContext);

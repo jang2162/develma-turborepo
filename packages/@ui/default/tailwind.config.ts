@@ -1,9 +1,9 @@
 import { withTailwindTheme } from '@config/tailwindcss';
 import type { Config } from 'tailwindcss';
 
-import { designToken } from './src/designToken';
+import { designSystemToken } from './src/tokens/designSystemToken';
 
-export default withTailwindTheme(null, designToken, (config) => ({
+export default withTailwindTheme(null, designSystemToken, (config) => ({
     ...config,
     content: ['./src/**/*.{js,ts,jsx,tsx}'],
 })) as Config;

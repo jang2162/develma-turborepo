@@ -7,7 +7,6 @@ import { cva } from 'class-variance-authority';
 import { twMerge } from 'tailwind-merge';
 
 import { SIZE, STATE } from '../../constant';
-import { useTheme } from '../../ThemeProvider';
 
 type ButtonProps = Omit<HButtonProps, 'className'> &
     ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -37,7 +36,6 @@ const button = cva('text-aa-40', {
 });
 
 const Button = ({ overrideState, size, ...prop }: ButtonProps) => {
-    const theme = useTheme();
     return (
         <HButton className={twMerge(button({ size }), prop.className)} {...prop}>
             {prop.children || prop.label}
