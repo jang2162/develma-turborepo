@@ -60,7 +60,7 @@ export function withTailwindTheme<
         const colorKey = `${prefix ? `${prefix}-` : ''}sys-${key}`.replaceAll('.', '-').toLowerCase();
         const varKey = `${prefix ? `${prefix}-` : ''}sys-color-${key}`.replaceAll('.', '-').toLowerCase();
         if (singleTheme) {
-            const c = Color(designToken.systemToken.dist.colors[key].value);
+            const c = Color(designToken.systemToken.dist.colors[key].ref.value);
             baseConfig.theme.colors[colorKey] = c.hex();
         } else {
             baseConfig.theme.colors[colorKey] = `rgb(var(--${varKey}) / <alpha-value>)`;

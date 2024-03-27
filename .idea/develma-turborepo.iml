@@ -21,7 +21,6 @@
       <sourceFolder url="file://$MODULE_DIR$/packages/@util/tools/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/packages/@base/graphql/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/packages/@ui/default/src" isTestSource="false" />
-      <excludePattern pattern="dist" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

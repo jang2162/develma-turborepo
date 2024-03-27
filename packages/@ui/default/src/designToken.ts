@@ -1,4 +1,4 @@
-import { buildDesignToken, buildRefTokens } from '@util/design-token';
+import { buildRefTokens, buildDesignToken, buildSubSystemToken } from '@util/design-token';
 
 const refToken = buildRefTokens({
     colors: {
@@ -10,7 +10,7 @@ const refToken = buildRefTokens({
         test: { value: [1, 2, 255] },
     },
     etc: {
-        b1: { value: 123 },
+        b1: { value: '123' },
         b2: 'b1',
         a2: 'b2',
     },
@@ -30,10 +30,9 @@ export const designToken = buildDesignToken(
     },
 );
 
-//
-// export const subSystemToken = buildSubSystemToken(designToken.ts, {
-//     colors: {
-//         test2: 'a3',
-//     },
-//     etc: {},
-// });
+export const subSystemToken = buildSubSystemToken(designToken, {
+    colors: {
+        test2: 'a3',
+    },
+    etc: {},
+});

@@ -22,7 +22,7 @@ type RefTokenDist<PARAM extends RefTokenParam<PARAM>> = {
 };
 
 type RefTokenResult<PARAM extends RefTokenParam<PARAM>> = {
-    param: RefTokenParam<PARAM>;
+    param: PARAM;
     dist: RefTokenDist<PARAM>;
 };
 
@@ -32,12 +32,12 @@ type SystemTokenParam<REF_PARAM extends RefTokenParam<REF_PARAM>, PARAM extends 
 };
 
 type SystemTokenDist<REF_PARAM extends RefTokenParam<REF_PARAM>, PARAM extends SystemTokenParam<REF_PARAM, PARAM>> = {
-    colors: Record<keyof PARAM['colors'], RefValueColor>;
-    etc: Record<keyof PARAM['etc'], RefValueEtc>;
+    colors: Record<keyof PARAM['colors'], { ref: RefValueColor; isSystem: boolean }>;
+    etc: Record<keyof PARAM['etc'], { ref: RefValueEtc; isSystem: boolean }>;
 };
 
 type SystemTokenResult<REF_PARAM extends RefTokenParam<REF_PARAM>, PARAM extends SystemTokenParam<REF_PARAM, PARAM>> = {
-    param: SystemTokenParam<REF_PARAM, PARAM>;
+    param: PARAM;
     dist: SystemTokenDist<REF_PARAM, PARAM>;
 };
 
@@ -47,6 +47,24 @@ type SubSystemTokenParam<
 > = {
     colors: SubSystemVariable<RefValueColor, REF_PARAM['colors'], PARAM['colors']>;
     etc: SubSystemVariable<RefValueEtc, REF_PARAM['etc'], PARAM['etc']>;
+};
+
+type SubSystemTokenDist<
+    REF_PARAM extends RefTokenParam<REF_PARAM>,
+    SYS_PARAM extends SystemTokenParam<REF_PARAM, SYS_PARAM>,
+    PARAM extends SubSystemTokenParam<REF_PARAM, SYS_PARAM>,
+> = {
+    colors: Record<keyof PARAM['colors'], { isSystem: boolean }>;
+    etc: Record<keyof PARAM['etc'], { isSystem: boolean }>;
+};
+
+type SubSystemTokenResult<
+    REF_PARAM extends RefTokenParam<REF_PARAM>,
+    SYS_PARAM extends SystemTokenParam<REF_PARAM, SYS_PARAM>,
+    PARAM extends SubSystemTokenParam<REF_PARAM, SYS_PARAM>,
+> = {
+    param: PARAM;
+    designToken: DesignToken<REF_PARAM, SYS_PARAM>;
 };
 
 type DesignToken<REF_PARAM extends RefTokenParam<REF_PARAM>, PARAM extends SystemTokenParam<REF_PARAM, PARAM>> = {
@@ -90,9 +108,9 @@ function extractSystemValue<
     key: string,
     refVars: REF_VARS,
     sysRefVars: SYS_VARS,
-    cache: { [key in string]: T },
+    cache: { [key in string]: { ref: T; isSystem: boolean } },
     refStack: string[] = [],
-): T {
+): { ref: T; isSystem: boolean } {
     const sysValue = sysRefVars[key];
     if (typeof sysValue === 'string') {
         if (sysValue in cache) {
@@ -106,9 +124,9 @@ function extractSystemValue<
             key,
         ]));
     } else if (typeof sysValue === 'object') {
-        return sysValue;
+        return { ref: sysValue, isSystem: true };
     } else if (key in refVars) {
-        return refVars[key];
+        return { ref: refVars[key], isSystem: false };
     }
     throw new Error(`Cannot found token value. (${debugStr}: ${key})`);
 }
@@ -160,27 +178,27 @@ export function buildDesignToken<
     const { prefix = '', checkDuplicate = true, singleTheme = true } = options;
 
     const dist = {
-        colors: {
-            ...systemTokens.colors,
-        },
-        etc: {
-            ...systemTokens.etc,
-        },
-    };
+        colors: {},
+        etc: {},
+    } as any;
 
-    const colorCache: { [key in string]: RefValueColor } = {};
-    for (const i in dist.colors) {
-        const val = dist.colors[i];
+    const colorCache: { [key in string]: { ref: RefValueColor; isSystem: boolean } } = {};
+    for (const i in systemTokens.colors) {
+        const val = systemTokens.colors[i];
         if (typeof val === 'string') {
             dist.colors[i] = extractSystemValue('sysColor', val, refToken.dist.colors, systemTokens.colors, colorCache);
+        } else {
+            dist.colors[i] = { ref: val, isSystem: true };
         }
     }
 
-    const etcCache: { [key in string]: RefValueEtc } = {};
-    for (const i in dist.etc) {
-        const val = dist.etc[i];
+    const etcCache: { [key in string]: { ref: RefValueEtc; isSystem: boolean } } = {};
+    for (const i in systemTokens.etc) {
+        const val = systemTokens.etc[i];
         if (typeof val === 'string') {
             dist.etc[i] = extractSystemValue('sysEtc', val, refToken.dist.etc, systemTokens.etc, etcCache);
+        } else {
+            dist.etc[i] = { ref: val, isSystem: true };
         }
     }
 
@@ -202,26 +220,38 @@ export function buildSubSystemToken<
     REF_PARAM extends RefTokenParam<REF_PARAM>,
     SYS_PARAM extends SystemTokenParam<REF_PARAM, SYS_PARAM>,
     PARAM extends SubSystemTokenParam<REF_PARAM, SYS_PARAM>,
->(designToken: DesignToken<REF_PARAM, SYS_PARAM>, subSystemTokens: PARAM): PARAM {
+>(
+    designToken: DesignToken<REF_PARAM, SYS_PARAM>,
+    subSystemTokens: PARAM,
+): SubSystemTokenResult<REF_PARAM, SYS_PARAM, PARAM> {
     if (designToken.options.singleTheme) {
         throw new Error('Single theme is not supported');
     }
+    const dist = {
+        colors: {},
+        etc: {},
+    } as any;
 
-    return subSystemTokens;
+    for (const i in subSystemTokens.colors) {
+        dist.colors[i] = { isSystem: i in designToken.systemToken.param.colors };
+    }
+
+    for (const i in subSystemTokens.etc) {
+        dist.etc[i] = { isSystem: i in designToken.systemToken.param.etc };
+    }
+    return {
+        param: subSystemTokens,
+        designToken,
+    };
 }
 
 export type {
     RefValue,
     RefValueEtc,
     RefValueColor,
-    RefVariable,
-    SystemVariable,
-    SystemTokenParam,
-    SystemTokenDist,
-    SystemTokenResult,
-    SubSystemTokenParam,
     RefTokenParam,
-    RefTokenDist,
-    RefTokenResult,
+    SystemTokenParam,
+    SubSystemTokenParam,
+    SubSystemTokenResult,
     DesignToken,
 };
